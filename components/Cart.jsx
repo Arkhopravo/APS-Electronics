@@ -12,7 +12,7 @@ import {urlFor} from '../lib/client'
 
 const Cart = () => {
   const cartRef = useRef();
-  const { totalPrice, totalQuantities, cartItems, setShowCart} = useStateContext();
+  const { totalPrice, totalQuantities, cartItems, setShowCart, toggleCartItemQuantity, onRemove} = useStateContext();
 
   return (
     <div className='cart-wrapper' ref={cartRef}>
@@ -58,11 +58,11 @@ const Cart = () => {
                     
                      <br />
                         <p className='quantity-desc'>
-                            <span className='minus' onClick=""  >
+                            <span className='minus' onClick={() => toggleCartItemQuantity(item._id, 'dec') }  >
                                <AiOutlineMinus />
                             </span>
-                            <span className='num'>0</span>
-                            <span className='plus' onClick= "" >
+                            <span className='num'>{item.quantity}</span>
+                            <span className='plus' onClick={()=> {toggleCartItemQuantity(item._id, 'inc')}} >
                               <AiOutlinePlus />
                             </span>
                         </p>                 
@@ -70,7 +70,7 @@ const Cart = () => {
                       <button
                          type='button'
                          className='remove-item'
-                         onClick=""
+                         onClick={()=> onRemove(item)}
                       >
                         <TiDeleteOutline />
                       </button>
