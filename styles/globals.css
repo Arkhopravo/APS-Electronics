@@ -761,3 +761,21 @@ margin-top: 160px;
   margin: auto;
 }
 }
+
+.share-icon{
+  width: 30px;
+  margin: left;
+  font-size: 25px;
+  position: relative;
+  display: inline-block;
+  
+  
+}
+/* .share-icon:hover{
+  background-color: #324d67;
+  color: white;
+ 
+} */
+.popup{
+  color: #324d67; 
+}
