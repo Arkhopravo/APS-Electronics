@@ -97,19 +97,19 @@ const ProductDetails = ({products, product}) => {
                     <h4>Details: </h4>
                     <p>{details}</p>
                     
-                    <h style={{color:"red", fontFamily:"console"}}>Great Indian Festival</h>
+                    <h4 style={{color:"red", fontFamily:"console"}}>Great Indian Festival</h4>
                     <p className='price'>₹{price}</p>
                     <p>M.R.P. 
-                        <h style={{textDecoration:"line-through"}}> ₹4999</h>
+                        <h3 style={{textDecoration:"line-through"}}> ₹4999</h3>
                     </p>
                     <div>{now.getDate()}/{now.getMonth()+1}/{now.getFullYear()}</div>
                     <div>
-                        <h>Inclusive of all taxes</h>
-                        <h> EMI starts at ₹358. No Cost EMI available EMI</h>
+                        <h3>Inclusive of all taxes</h3>
+                        <h3> EMI starts at ₹358. No Cost EMI available EMI</h3>
                         <h2>In stock.</h2><p>
                             Sold by Appario Retail Private Ltd and Fulfilled by APS Electronics Store.</p> 
                         </div>
-                        <div className='share'><AiFillEnvironment /> <a href='http://www.'>
+                        <div className='share'> <a href='https://www.google.com/maps'><AiFillEnvironment />
                            <h style={{ textDecoration: 'underline'}}>Select Delivery Location</h></a>
                         </div>
                     <div className='quantity'>

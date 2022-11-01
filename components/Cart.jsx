@@ -1,46 +1,56 @@
-import React,{useRef} from 'react'
+import React,{useRef, useEffect} from 'react'
 import Link from 'next/link';
 import {AiOutlineMinus, AiOutlinePlus, AiOutlineLeft, AiOutlineShopping} from 'react-icons/ai'
 import { TiDeleteOutline} from 'react-icons/ti'
-import toast from  'react-hot-toast'
+// import toast from  'react-hot-toast'
 
 import { useStateContext } from '../context/StateContext';
 import {urlFor} from '../lib/client'
-import getStripe from '../lib/getStripe';
+// import getStripe from '../lib/getStripe';
 
+import { loadStripe } from '@stripe/stripe-js'
 
+const stripePromise = loadStripe(
+  process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
+);
 
 const Cart = () => {
   const cartRef = useRef();
   const { totalPrice, totalQuantities, cartItems, setShowCart, toggleCartItemQuantity, onRemove} = useStateContext();
+  
 
-  const handleCheckout = async () => {
-      const stripe = await getStripe();
+  useEffect(() => {
+    // Check to see if this is a redirect back from Checkout
+    const query = new URLSearchParams(window.location.search);
+    if (query.get('success')) {
+      console.log('Order placed! You will receive an email confirmation.');
+    }
 
-      // const response = await fetch("/api/stripe", {
-      //   method: 'POST',
-      //   headers: {
-      //     'Content-Type': 'application/json',
-      //   },
-      //   body: JSON.stringify(cartItems),
-      // });
-      
-      const response = await fetch(`/api/stripe`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(cartItems),
-      });
-  
-      if(response.statusCode === 500) return;
-      
-      const data = await response.json();
-  
-      toast.loading('Redirecting...');
-  
-      stripe.redirectToCheckout({ sessionId: data.id });
-  };
+    if (query.get('canceled')) {
+      console.log('Order canceled -- continue to shop around and checkout when you’re ready.');
+    }
+  }, []);
+  // const handleCheckout = async () => {
+  //   const stripe = await getStripe();
+
+  //   const response = await fetch('/api/stripe', {
+  //     method: 'POST',
+  //     headers: {
+  //       'Content-Type': 'application/json',
+  //     },
+  //     body: JSON.stringify(cartItems),
+  //   });
+
+  //   if(response.statusCode === 500) return;
+    
+  //   const data = await response.json();
+
+  //   toast.loading('Redirecting...');
+
+  //   stripe.redirectToCheckout({ sessionId: data.id });
+  // }
+
+
 
   return (
     <div className='cart-wrapper' ref={cartRef}>
@@ -114,9 +124,13 @@ const Cart = () => {
                 <h3>₹{totalPrice}</h3>
             </div>
             <div className="btn-container">
-              <button type='button' className='btn' onClick={handleCheckout}>
+             
+             <form action="/api/checkout_sessions" method="POST">
+                <button type='submit' className='btn' role="link">
                  Pay with Stripe
-              </button>
+                </button>
+
+             </form>
             </div>
           </div>
         )}
